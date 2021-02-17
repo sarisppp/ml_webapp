@@ -185,7 +185,7 @@ def hello(request):
     df_new=df_new.dropna()
     df_new=predict(df_trian,df_new)
     #df_new=buy_hole_sell(df_new)
-     print("===============step 2======================")
+    print("===============step 2======================")
     json_records = df_new.reset_index().to_json(orient ='records') 
     data = [] 
     data = json.loads(json_records) 
