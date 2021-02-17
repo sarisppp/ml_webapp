@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Document</title>
+
+</head>
+<body>
+    <h1>MLStock</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link" href="#">Features</a>
+              <a class="nav-link" href="#">Pricing</a>
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </div>
+          </div>
+        </div>
+    </nav>
+    <br>
+    <h1>SET50 Index</h1>
+    
+<div class="container"> 
+    <table class="table table-dark table-striped"> 
+        <thead> 
+        <tr> 
+            <th scope="col">Timestamp</th>
+            <th scope="col">Close</th>
+            <th scope="col">EMAV(34)</th>
+            <th scope="col">Signal</th>
+            <th scope="col">MACD(13,5,5)</th>
+            <th scope="col">RSI</th>
+            <th scope="col">EMAV(RSI,13)</th>
+            <th scope="col">Alert</th>
+        </tr> 
+        </thead> 
+        <tbody> 
+        {% if d %} 
+        {% for i in d %} 
+            <tr>
+                <td>{{i.Timestamp}}</td> 
+                    <td>{{i.Close}}</td> 
+                    <td>{{i.EMAV}}</td> 
+                    <td>{{i.Signal}}</td> 
+                    <td>{{i.MACD13}}</td> 
+                    <td>{{i.RSI14}}</td> 
+                    <td>{{i.EMAVRSI13}}</td>
+                    <td>{{i.Alert}}</td>
+            </tr>
+        {% endfor %} 
+        {% endif %} 
+        </tbody> 
+    </table> 
+    </div> 
+</body>
+</html>
