@@ -20,15 +20,14 @@ def signal(datatrain,periods=16):
     return datatrain
 def predict(data,df):
     data=data.dropna()
-    print(data.info())
     data_X = data.drop('output',axis=1)
     data_Y = data.output
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.model_selection import train_test_split
     train_X, test_X, train_y,test_y = train_test_split(data_X,data_Y,test_size=0.20, random_state=0)
-    print(train_X.info())
-    print("=====================================")
-    print(train_y.head())
+
+    print("===============step predict======================")
+
     RandomForest = RandomForestClassifier(n_estimators=100)
     RandomForest.fit(train_X, train_y)  
     y_predict=RandomForest.predict(test_X)
@@ -186,7 +185,7 @@ def hello(request):
     df_new=df_new.dropna()
     df_new=predict(df_trian,df_new)
     #df_new=buy_hole_sell(df_new)
-    df_new.info()
+     print("===============step 2======================")
     json_records = df_new.reset_index().to_json(orient ='records') 
     data = [] 
     data = json.loads(json_records) 
