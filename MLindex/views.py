@@ -185,7 +185,7 @@ def hello(request):
     df_new.set_index("Timestamp",inplace=True)
     df_new=df_new.dropna()
     df_new=predict(df_trian,df_new)
-    df_new=buy_hole_sell(df_new)
+    #df_new=buy_hole_sell(df_new)
     df_new.info()
     json_records = df_new.reset_index().to_json(orient ='records') 
     data = [] 
