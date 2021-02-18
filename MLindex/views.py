@@ -3,6 +3,10 @@ import numpy as np
 import pandas as pd 
 import json 
 
+def Home(request):
+    return render(request, "school/home.html")
+
+
 def signal(datatrain,periods=16):
     datatrain['output']=0
     for index,row in datatrain.iterrows():
@@ -194,3 +198,5 @@ def hello(request):
     context = {'d': data,} 
     
     return render(request,'index.html',context)
+
+    def home

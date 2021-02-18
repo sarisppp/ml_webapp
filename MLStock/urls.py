@@ -18,6 +18,7 @@ from django.urls import path
 from MLindex import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',views.hello)
+    path('',Home,name='home-page'),
+    path('views/',views.hello),
+    path('home/',views.home)
 ]
