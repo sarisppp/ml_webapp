@@ -4,7 +4,7 @@ import pandas as pd
 import json 
 
 def Home(request):
-    return render(request, "school/home.html")
+    return render(request, "home.html")
 
 
 def signal(datatrain,periods=16):
@@ -199,4 +199,4 @@ def hello(request):
     
     return render(request,'index.html',context)
 
-    def home
+  
