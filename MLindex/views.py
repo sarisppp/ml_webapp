@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 import numpy as np
 import pandas as pd 
 import json 
 
-def Home(request):
+
+def home1(request):
     return render(request, "home.html")
 
 
@@ -199,4 +201,5 @@ def hello(request):
     
     return render(request,'index.html',context)
 
-  
+def history1(request):
+    return render(request,"history.html")

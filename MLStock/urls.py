@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from MLindex import views
 
+
+
+
 urlpatterns = [
-    path('',Home,name='home-page'),
-    path('views/',views.hello),
-    path('home/',views.home)
+    path('',views.home1,name='home-page'),
+    path('history/',views.history1,name='history-page')
 ]
