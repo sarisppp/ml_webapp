@@ -225,4 +225,4 @@ def Register(request):
         newuser.set_password(password)
         newuser.save()
         return redirect("home-page")
-    return render(request,"school/register.html")
+    return render(request,"register.html")
