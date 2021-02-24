@@ -21,6 +21,7 @@ from MLindex import views
 
 
 urlpatterns = [
-    path('',views.home1,name='home-page'),
+    path('',views.Login,name='login-page'),
+    path('home/',views.home1,name='home-page'),
     path('history/',views.history1,name='history-page')
 ]

@@ -203,3 +203,26 @@ def hello(request):
 
 def history1(request):
     return render(request,"history.html")
+
+
+def Login(request):
+    return render(request,"login.html")
+
+
+
+def Register(request):
+    if request.method == "POST":
+        data = request.POST.copy()
+        fisrt_name = data.get('fisrt_name')
+        last_name = data.get('last_name')
+        email = data.get('email')
+        password = data.get('password')
+
+        newuser = User()
+        newuser.username = email
+        newuser.fist_name = fisrt_name
+        newuser.email = email
+        newuser.set_password(password)
+        newuser.save()
+        return redirect("home-page")
+    return render(request,"school/register.html")

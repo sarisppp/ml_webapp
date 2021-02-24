@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<form method="POST">
+
+    <div class="form-group">
+        {% csrf_token %}
+
+        <label for="fisrt_name">ชื่อ:</label>
+        <input type="text" class="form-control" id="fisrt_name" name="fisrt_name">
+    </div>
+
+    <div class="form-group">
+        <label for="last_name">นามสกุล:</label>
+        <input type="text" class="form-control" id="last_name" name="last_name">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email address:</label>
+      <input type="email" class="form-control" id="email" name="email">
+    </div>
+
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="password" name="password">
+    </div>
+
+    <div class="checkbox">
+      
+    </div>
+    <button type="submit" class="btn-primary">Submit</button>
+  </form>
+
+  {% endblock content %}
