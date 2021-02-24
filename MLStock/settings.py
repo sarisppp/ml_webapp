@@ -60,7 +60,7 @@ ROOT_URLCONF = 'MLStock.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'school/template')],
+        'DIRS': [os.path.join(BASE_DIR,'teamplates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +127,4 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'home-page'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = '/static/'
 
