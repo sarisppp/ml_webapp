@@ -8,12 +8,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
     
-  .fakeimg {
-    height: 200px;
-    background: #aaa;}
-
   .bg-nav{
     background-color:#589ea5;
     padding-left:20px;
@@ -195,130 +192,6 @@ input[type=text]:placeholder {
 }
 
 
-
-/* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-/* Simple CSS3 Fade-in Animation */
-@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-.fadeIn {
-  opacity:0;
-  -webkit-animation:fadeIn ease-in 1;
-  -moz-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode:forwards;
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-
-  -webkit-animation-duration:1s;
-  -moz-animation-duration:1s;
-  animation-duration:1s;
-}
-
-.fadeIn.first {
-  -webkit-animation-delay: 0.4s;
-  -moz-animation-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
-/* Simple CSS3 Fade-in Animation */
-.underlineRegister::after{
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #56baed;
-  content: "";
-  transition: width 0.2s;
-}
-
-.underlineRegister:hover {
-  color: #0d0d0d;
-}
-
-.underlineRegister:hover:after{
-  width: 100%;
-}
-
-.underlineHover:after {
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #56baed;
-  content: "";
-  transition: width 0.2s;
-}
-
-.underlineHover:hover {
-  color: #0d0d0d;
-}
-
-.underlineHover:hover:after{
-  width: 100%;
-}
-
-
-
 /* OTHERS */
 
 *:focus {
@@ -335,14 +208,27 @@ input[type=text]:placeholder {
 </head>
 <body>
 <nav>
-StockML
+<p>StockML</p>
 </nav>
-  <div class="wrapper fadeInDown">
+  <div class="wrapper">
     <div id="formContent">
       <!-- Tabs Titles -->
   
-      <div class=""
+      <!-- Login Form -->
+      <form method="POST" action="{{ action }}">
+        {% csrf_token %}
+        <input type="text" id="fisrt-name" class="fisrt-name" name="fisrt-name" placeholder="FisrtName">
+        <input type="text" id="last-name" class="last-name" name="last-name" placeholder="LastName">
+        <input type="text" id="email" class="email" name="email" placeholder="Email">
+        <input type="password" id="password" class="password" name="password" placeholder="Password">
+        <input type="password" id="confirm_pswd" class="confirm_pswd" name="confirm_pswd" placeholder="confirm_Password">
+        <input type="submit" class="submit" value="Submit">
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
       
+      </div>
   
     </div>
   </div>
@@ -352,39 +238,42 @@ StockML
   <p>Copyright © CEKMITL</p>
 </div>
 
+<script>
+  function formSubmit(bt) {
+      var pswd = document.getElementById('password').value;
+      var pswd_cf = document.getElementById('confirm_pswd').value;
+      if (pswd != pswd_cf) {
+          alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');        
+      } else {
+          document.querySelector('form').submit();
+      }
+  }
+
+  var el = document.getElementById('id_email');
+  el.onblur = function() {
+      if (el.value.trim() == '') {
+          return;
+      }
+
+      axios({
+          url:'',      
+          params:{'email':el.value},
+          timeout: 3000,
+          headers: {'X-Requested-With': 'XMLHttpRequest'}
+      })
+      .then(response => {
+          if (response.data.exist == true) {
+              el.value = '';
+              alert('อีเมลนี้มีผู้ใช้แล้ว');
+          } else {
+              //...
+          }
+      })
+      .catch(error => {
+          alert(error);
+      });
+  }
+  </script>
+
 </body>
 </html>
-
-
-
-
-<form method="POST">
-
-    <div class="form-group">
-        {% csrf_token %}
-
-        <label for="fisrt_name">ชื่อ:</label>
-        <input type="text" class="form-control" id="fisrt_name" name="fisrt_name">
-    </div>
-
-    <div class="form-group">
-        <label for="last_name">นามสกุล:</label>
-        <input type="text" class="form-control" id="last_name" name="last_name">
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email address:</label>
-      <input type="email" class="form-control" id="email" name="email">
-    </div>
-
-    <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="password" name="password">
-    </div>
-
-    <div class="checkbox">
-      
-    </div>
-    <button type="submit" class="btn-primary">Submit</button>
-  </form>
-

@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponse
 from django.http import HttpResponse
+from MLindex.models import *
+from django.urls import reverse
 import numpy as np
 import pandas as pd 
 import json 
+from django.http import JsonResponse
+
 
 
 def home1(request):
@@ -210,19 +214,40 @@ def Login(request):
 
 
 
-def Register(request):
-    if request.method == "POST":
-        data = request.POST.copy()
-        fisrt_name = data.get('fisrt_name')
-        last_name = data.get('last_name')
-        email = data.get('email')
-        password = data.get('password')
 
-        newuser = User()
-        newuser.username = email
-        newuser.fist_name = fisrt_name
-        newuser.email = email
-        newuser.set_password(password)
-        newuser.save()
-        return redirect("home-page")
-    return render(request,"register.html")
+
+def check_email_exist(em1):
+    row = Member.objects.filter(email=em1)
+    if row.count() == 0:
+        return False
+    else:
+        return True
+
+def member_signup(request):
+    if request.is_ajax():
+        email = request.GET.get('email','')
+        exist = check_email_exist(email)
+        return JsonResponse({'exist':exist})
+
+    if 'id' in request.session:
+        return redirect(reverse('home-page'))
+
+    err_msg = ''
+    if request.method == 'POST':
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            if not check_email_exist(request.POST['email']):
+                r = form.save()
+                request.session['id'] = r.id
+                request.seesion['name'] = r.firstname
+                return redirect(reverse('home-page'))
+            else:
+                err_msg = 'อีเมลนี้มีผู้ใช้แล้ว'
+        else:
+            err_msg = 'ข้อมูลไมถูกต้อง'
+    else:
+        form = MemberForm()
+        action = reverse('home-page')
+
+    return render(request, 'register.html', {'form': form, 'action':action, 'err_msg':err_msg})
+            
