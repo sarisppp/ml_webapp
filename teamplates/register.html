@@ -91,7 +91,7 @@ h2 {
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;
-  padding: 30px;
+  padding: 20px;
   width: 90%;
   max-width: 450px;
   position: relative;
@@ -215,14 +215,30 @@ input[type=text]:placeholder {
       <!-- Tabs Titles -->
   
       <!-- Login Form -->
-      <form method="POST" action="{{ action }}">
+      <form method="POST">
         {% csrf_token %}
-        <input type="text" id="fisrt-name" class="fisrt-name" name="fisrt-name" placeholder="FisrtName">
-        <input type="text" id="last-name" class="last-name" name="last-name" placeholder="LastName">
-        <input type="text" id="email" class="email" name="email" placeholder="Email">
-        <input type="password" id="password" class="password" name="password" placeholder="Password">
-        <input type="password" id="confirm_pswd" class="confirm_pswd" name="confirm_pswd" placeholder="confirm_Password">
-        <input type="submit" class="submit" value="Submit">
+
+        <div class="from-group">
+        <label for="first_name">
+        <input type="text" id="fisrt_name" class="from-group" name="fisrtname">
+        </div>
+
+        <div class="from-group">
+          <label for="last_name">
+          <input type="text" id="last_name" class="from-group" name="lastname">
+        </div>
+        
+        <div class="from-group">
+          <label for="email">
+          <input type="text" id="email" class="from-group" name="email">
+        </div>
+
+        <div class="from-group">
+          <label for="password">
+          <input type="password" id="password" class="from-group" name="password">
+        </div>
+        
+       <button type="submit" class="btn btn-primary">Submit</button>
       </form>
   
       <!-- Remind Passowrd -->
@@ -238,42 +254,8 @@ input[type=text]:placeholder {
   <p>Copyright © CEKMITL</p>
 </div>
 
-<script>
-  function formSubmit(bt) {
-      var pswd = document.getElementById('password').value;
-      var pswd_cf = document.getElementById('confirm_pswd').value;
-      if (pswd != pswd_cf) {
-          alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');        
-      } else {
-          document.querySelector('form').submit();
-      }
-  }
 
-  var el = document.getElementById('id_email');
-  el.onblur = function() {
-      if (el.value.trim() == '') {
-          return;
-      }
 
-      axios({
-          url:'',      
-          params:{'email':el.value},
-          timeout: 3000,
-          headers: {'X-Requested-With': 'XMLHttpRequest'}
-      })
-      .then(response => {
-          if (response.data.exist == true) {
-              el.value = '';
-              alert('อีเมลนี้มีผู้ใช้แล้ว');
-          } else {
-              //...
-          }
-      })
-      .catch(error => {
-          alert(error);
-      });
-  }
-  </script>
 
 </body>
 </html>

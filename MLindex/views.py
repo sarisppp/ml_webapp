@@ -6,11 +6,16 @@ import numpy as np
 import pandas as pd 
 import json 
 from django.http import JsonResponse
+from .models import Member
+from django.contrib.auth.models import User
 
 
 
 def home1(request):
     return render(request, "home.html")
+
+def Hello(request):
+    return render(request,"hello.html")
 
 
 def signal(datatrain,periods=16):
@@ -212,9 +217,33 @@ def history1(request):
 def Login(request):
     return render(request,"login.html")
 
+def Regitser(request):
+    if request.method == 'POST':
+        data = request.POST.copy()
+        fisrt_name = data.get('fisrtname')
+        last_name = data.get('lastname')
+        email = data.get('email')
+        password = data.get('password')
+
+        newuser = User()
+        newuser.username = email
+        newuser.first_name = fisrt_name
+        newuser.last_name = last_name
+        newuser.email = email
+        newuser.set_password(password)
+        newuser.save()
+        return redirect("login-page")
+    return render(request,"register.html")
 
 
 
+
+
+
+
+
+
+"""
 
 def check_email_exist(em1):
     row = Member.objects.filter(email=em1)
@@ -248,6 +277,74 @@ def member_signup(request):
     else:
         form = MemberForm()
         action = reverse('home-page')
-
     return render(request, 'register.html', {'form': form, 'action':action, 'err_msg':err_msg})
             
+def addname(request):
+    firstname = request.POST['fisrtname']
+    lastname = request.POST['lastname']
+    email = request.POST['email']
+    password = request.POST['password']
+    repassword = request.POST['confirmpswd']
+
+    user=User.objects.create_user(
+        username = username,
+        firstname = firstname,
+        lastname = lastname,
+        email = email,
+        password = password
+        )
+    user.save()
+
+    return render(request,'home.html')
+
+
+def usercreate(request):
+    if request.method == 'POST':
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = MemberForm()
+    return render(request,'home.html')
+
+
+
+ <script>
+  function formSubmit(bt) {
+      var pswd = document.getElementById('password').value;
+      var pswd_cf = document.getElementById('confirm_pswd').value;
+      if (pswd != pswd_cf) {
+          alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');        
+      } else {
+          document.querySelector('form').submit();
+      }
+  }
+
+  var el = document.getElementById('email');
+  el.onblur = function() {
+      if (el.value.trim() == '') {
+          return;
+      }
+
+      axios({
+          url:'',      
+          params:{'email':el.value},
+          timeout: 3000,
+          headers: {'X-Requested-With': 'XMLHttpRequest'}
+      })
+      .then(response => {
+          if (response.data.exist == true) {
+              el.value = '';
+              alert('อีเมลนี้มีผู้ใช้แล้ว');
+          } else {
+              //...
+          }
+      })
+      .catch(error => {
+          alert(error);
+      });
+  }
+  </script>
+   
+
+"""
