@@ -191,6 +191,37 @@ input[type=text]:placeholder {
   color: #cccccc;
 }
 
+input[type=textpw] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -webkit-text-security: disc;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=textpw]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #5fbae9;
+}
+
+input[type=textpw]:placeholder {
+  color: #cccccc;
+}
+
 
 /* OTHERS */
 
@@ -218,28 +249,28 @@ input[type=text]:placeholder {
       <form method="POST">
         {% csrf_token %}
 
-        <div class="from-group">
-        <label for="first_name">
-        <input type="text" id="fisrt_name" class="from-group" name="fisrtname">
+        <div class="form-group">
+          <label for="usr">FirstName:</label>
+          <input type="text" class="form-control w-75 mt-4" id="fisrt_name" name="fisrtname">
         </div>
-
-        <div class="from-group">
-          <label for="last_name">
-          <input type="text" id="last_name" class="from-group" name="lastname">
+        <div class="form-group">
+          <label for="usr">LastName:</label>
+          <input type="text" class="form-control w-75" id="last_name" name="lastname">
         </div>
-        
-        <div class="from-group">
-          <label for="email">
-          <input type="text" id="email" class="from-group" name="email">
+        <div class="form-group">
+          <label for="usr" style="margin-right: 7%;">Email:</label>
+          <input type="text" class="form-control w-75 " id="email" name="email">
         </div>
-
-        <div class="from-group">
-          <label for="password">
-          <input type="password" id="password" class="from-group" name="password">
+        <div class="form-group">
+          <label for="usr" style="margin-right: 1%;">Password:</label>
+          <input type="textpw" class="form-control w-75" id="password" name="password">
         </div>
-        
-       <button type="submit" class="btn btn-primary">Submit</button>
+       
+       <button type="submit" class="btn btn-primary" style="margin-bottom: 2%;margin-top: -2%;">Submit</button>
       </form>
+
+     
+    
   
       <!-- Remind Passowrd -->
       <div id="formFooter">

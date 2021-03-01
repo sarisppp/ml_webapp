@@ -153,6 +153,11 @@ input[type=button], input[type=submit], input[type=reset]  {
   transition: all 0.3s ease-in-out;
 }
 
+.input_pass:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+
 input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
   background-color: #39ace7;
 }
@@ -186,12 +191,43 @@ input[type=text] {
   border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus {
+input[type=textp]:focus {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
 }
 
 input[type=text]:placeholder {
+  color: #cccccc;
+}
+
+input[type=textpw] {
+  -webkit-text-security: disc;
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=textpw]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #5fbae9;
+}
+
+input[type=textpw]:placeholder {
   color: #cccccc;
 }
 
@@ -351,13 +387,15 @@ input[type=text]:placeholder {
       <form method="POST">
         {% csrf_token %}
         <input type="text" id="username" class="fadeIn second" name="username" placeholder="Email">
-        <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+        <input type="textpw" id="password" class="fadeIn third" name="password" placeholder="password" maxlength="20"> 
         <input type="submit" class="fadeIn fourth" value="Log In">
+
       </form>
-  
+
+
       <!-- Remind Passowrd -->
       <div id="formFooter">
-        <a class ="underlineRegister" href="{% url 'register-page' %}">Register1  |</a>
+        <a class ="underlineRegister" href="{% url 'register-page' %}">Register  |</a>
         <a class="underlineHover" href="#">Forgot Password?</a>
       </div>
   

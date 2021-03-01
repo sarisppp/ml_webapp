@@ -232,7 +232,7 @@ def Regitser(request):
         newuser.email = email
         newuser.set_password(password)
         newuser.save()
-        return redirect("login-page")
+        return redirect("login")
     return render(request,"register.html")
 
 
