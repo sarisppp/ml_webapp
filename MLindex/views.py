@@ -8,11 +8,10 @@ import json
 from django.http import JsonResponse
 from .models import Member
 from django.contrib.auth.models import User
+from urllib.request import urlopen as req
+from bs4 import BeautifulSoup as soup
 
 
-
-def home1(request):
-    return render(request, "home.html")
 
 def Hello(request):
     return render(request,"hello.html")
@@ -237,114 +236,21 @@ def Regitser(request):
 
 
 
+def home1(request):
+    import requests as req1
+    from bs4 import BeautifulSoup as soup
+    url = 'https://marketdata.set.or.th/mkt/marketsummary.do?language=th&country=TH'
+    webopen = req1.get(url)
+    soup = soup(webopen.text,'html.parser')
+    data = []
+    table = soup.find('table', attrs={'class':'table-info'})
+    table_body = table.find('tbody')
+    rows = table_body.find_all('tr')
 
+    for row in rows:
+        cols = row.find_all('td')   
+        cols = [ele.text.strip() for ele in cols]
+        data.append([ele for ele in cols if ele])
 
-
-
-
-
-"""
-
-def check_email_exist(em1):
-    row = Member.objects.filter(email=em1)
-    if row.count() == 0:
-        return False
-    else:
-        return True
-
-def member_signup(request):
-    if request.is_ajax():
-        email = request.GET.get('email','')
-        exist = check_email_exist(email)
-        return JsonResponse({'exist':exist})
-
-    if 'id' in request.session:
-        return redirect(reverse('home-page'))
-
-    err_msg = ''
-    if request.method == 'POST':
-        form = MemberForm(request.POST)
-        if form.is_valid():
-            if not check_email_exist(request.POST['email']):
-                r = form.save()
-                request.session['id'] = r.id
-                request.seesion['name'] = r.firstname
-                return redirect(reverse('home-page'))
-            else:
-                err_msg = 'อีเมลนี้มีผู้ใช้แล้ว'
-        else:
-            err_msg = 'ข้อมูลไมถูกต้อง'
-    else:
-        form = MemberForm()
-        action = reverse('home-page')
-    return render(request, 'register.html', {'form': form, 'action':action, 'err_msg':err_msg})
-            
-def addname(request):
-    firstname = request.POST['fisrtname']
-    lastname = request.POST['lastname']
-    email = request.POST['email']
-    password = request.POST['password']
-    repassword = request.POST['confirmpswd']
-
-    user=User.objects.create_user(
-        username = username,
-        firstname = firstname,
-        lastname = lastname,
-        email = email,
-        password = password
-        )
-    user.save()
-
-    return render(request,'home.html')
-
-
-def usercreate(request):
-    if request.method == 'POST':
-        form = MemberForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = MemberForm()
-    return render(request,'home.html')
-
-
-
- <script>
-  function formSubmit(bt) {
-      var pswd = document.getElementById('password').value;
-      var pswd_cf = document.getElementById('confirm_pswd').value;
-      if (pswd != pswd_cf) {
-          alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');        
-      } else {
-          document.querySelector('form').submit();
-      }
-  }
-
-  var el = document.getElementById('email');
-  el.onblur = function() {
-      if (el.value.trim() == '') {
-          return;
-      }
-
-      axios({
-          url:'',      
-          params:{'email':el.value},
-          timeout: 3000,
-          headers: {'X-Requested-With': 'XMLHttpRequest'}
-      })
-      .then(response => {
-          if (response.data.exist == true) {
-              el.value = '';
-              alert('อีเมลนี้มีผู้ใช้แล้ว');
-          } else {
-              //...
-          }
-      })
-      .catch(error => {
-          alert(error);
-      });
-  }
-  </script>
-   
-
-"""
+    return render(request,"home.html",{"data":data})
+        
