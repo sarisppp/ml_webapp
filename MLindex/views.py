@@ -237,20 +237,36 @@ def Regitser(request):
 
 
 def home1(request):
-    import requests as req1
-    from bs4 import BeautifulSoup as soup
-    url = 'https://marketdata.set.or.th/mkt/marketsummary.do?language=th&country=TH'
-    webopen = req1.get(url)
-    soup = soup(webopen.text,'html.parser')
-    data = []
-    table = soup.find('table', attrs={'class':'table-info'})
-    table_body = table.find('tbody')
-    rows = table_body.find_all('tr')
+        import requests as req1
+        from bs4 import BeautifulSoup as soup
+        url = 'https://marketdata.set.or.th/mkt/sectorquotation.do?sector=SET50&language=th&country=TH'
+        webopen = req1.get(url)
+        soup = soup(webopen.text,'html.parser')
+        data = []
+        table = soup.find('table', attrs={'class':'table-info'})
+        table_body = table.find('tbody')
+        rows = table_body.find_all('tr')
 
-    for row in rows:
-        cols = row.find_all('td')   
-        cols = [ele.text.strip() for ele in cols]
-        data.append([ele for ele in cols if ele])
+        
 
-    return render(request,"home.html",{"data":data})
+        for row in rows:
+            cols = row.find_all('td')   
+            cols = [ele.text.strip() for ele in cols]
+            data.append([ele for ele in cols if ele])
+        
+        url = 'https://www.set.or.th/set/searchtodaynews.do?securityType=S&language=th&country=TH'
+        webopen = req1.get(url)
+        soup = soup(webopen.text,'html.parser')
+        data2 = []
+        table2 = soup.find('table', attrs={'class':'col-xs-9'})
+        table_body2 = table2.find('tbody')
+        rows2 = table_body2.find_all('tr')
+
+        for row in rows2:
+            cols2 = row.find_all('td')
+            cols2 = [ele.text.strip() for ele in cols2]
+            data2.append([ele for ele in cols2 if ele])
+
+
+        return render(request,"home.html",{"data":data,"data2":data2})
         
