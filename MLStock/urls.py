@@ -29,5 +29,6 @@ urlpatterns = [
     path('history/',views.history1,name='history-page'),
     path('register/',views.Regitser,name='register-page'),
     path('login/',auth_views.LoginView.as_view(template_name='login.html'),name='login'),
-    path('logout/',auth_views.LogoutView.as_view(template_name='logout.html'),name='logout')
+    path('logout/',auth_views.LogoutView.as_view(template_name='logout.html'),name='logout'),
+    path('index',views.hello,name='index-page')
 ]

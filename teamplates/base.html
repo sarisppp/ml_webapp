@@ -50,14 +50,14 @@
 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
  <ul class="navbar-nav mr-auto">
   <li class="nav-item">
-    <a class="nav-link" href="#" style="margin-right: 30px;font-size:larger;">Main</a>
+    <a class="nav-link" href="{% url 'home-page' %}" style="margin-right: 30px;font-size:larger;">Main</a>
    </li>
     
    <li class="nav-item">
      <a class="nav-link  mt-1" href="{% url 'history-page' %}">Historical history</a>
    </li>
    <li class="nav-item">
-     <a class="nav-link mt-1" href="#">Forecast</a>
+     <a class="nav-link mt-1" href="{% url 'index-page' %}">Forecast</a>
    </li>    
  </ul>
  <div>

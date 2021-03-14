@@ -10,7 +10,7 @@ from .models import Member
 from django.contrib.auth.models import User
 from urllib.request import urlopen as req
 from bs4 import BeautifulSoup as soup
-
+from django.contrib.auth.decorators import login_required
 
 
 def Hello(request):
@@ -198,8 +198,8 @@ def hello(request):
     df_new.set_index("Timestamp",inplace=True)
     df_new=df_new.dropna()
     df_new=predict(df_trian,df_new)
-    df_new=buy_hole_sell(df_new.head(100))
-    df_new=df_new.head(100)
+    df_new=buy_hole_sell(df_new.head(20))
+    df_new=df_new.head(20)
     print("===============step 2======================")
 
     json_records = df_new.reset_index().to_json(orient ='records') 
@@ -210,11 +210,32 @@ def hello(request):
     return render(request,'index.html',context)
 
 def history1(request):
+    if request.method == 'GET':
+        dat = request.GET.get("datee")
+        if dat == None:
+            return render(request,"history.html")
+        else:
+            used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
+            df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
+            df["Timestamp"] = pd.to_datetime(df['Timestamp'])
+            df.set_index("Timestamp",inplace=True)
+            df=df.dropna()
+            df=df.loc[dat]
+            df.reset_index(inplace=True)
+            print("===============step 2======================")
+            df.head(10)
+            json_records = df.reset_index().to_json(orient ='records', date_format='iso',date_unit='s') 
+            data = [] 
+            data = json.loads(json_records) 
+            context = {'d': data}   
+            return render(request,"history.html",context)
     return render(request,"history.html")
+    
 
 
 def Login(request):
     return render(request,"login.html")
+
 
 def Regitser(request):
     if request.method == 'POST':
@@ -236,6 +257,7 @@ def Regitser(request):
 
 
 
+@login_required
 def home1(request):
         import requests as req1
         from bs4 import BeautifulSoup as soup
@@ -253,7 +275,7 @@ def home1(request):
             cols = row.find_all('td')   
             cols = [ele.text.strip() for ele in cols]
             data.append([ele for ele in cols if ele])
-        
+        """
         url = 'https://www.set.or.th/set/searchtodaynews.do?securityType=S&language=th&country=TH'
         webopen = req1.get(url)
         soup = soup(webopen.text,'html.parser')
@@ -266,7 +288,7 @@ def home1(request):
             cols2 = row.find_all('td')
             cols2 = [ele.text.strip() for ele in cols2]
             data2.append([ele for ele in cols2 if ele])
+        """
 
-
-        return render(request,"home.html",{"data":data,"data2":data2})
+        return render(request,"home.html",{"data":data})
         
