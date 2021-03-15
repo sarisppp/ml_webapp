@@ -8,6 +8,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <title>Document</title>
 
+
+    <style>
+        .arrow-up {
+            width: 0; 
+            height: 0; 
+            border-left: 12.5px  solid transparent;
+            border-right: 12.5px solid transparent;
+            border-bottom: 20px solid green;
+            }
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 12.5px solid transparent;
+            border-right: 12.5px solid transparent;
+            border-top: 20px solid #f00;
+            }
+        .dot {
+            height: 20px;
+            width: 20px;
+            background-color: gainsboro;
+            border-radius: 50%;
+            display: inline-block;
+            }
+
+    </style>
+
 </head>
 <body>
     <h1>MLStock</h1>
@@ -51,7 +77,15 @@
                     <td>{{i.MACD13}}</td> 
                     <td>{{i.RSI14}}</td> 
                     <td>{{i.EMAVRSI13}}</td>
-                    <td>{{i.Alert}}</td>
+                    <td align="center">
+                        {% if i.Alert == 1 %}
+                            <div class="arrow-up"></div>
+                        {% elif i.Alert == 0 %}
+                            <div class="dot"></div>
+                        {% else %}
+                            <div class="arrow-down"></div>
+                        {% endif %}
+                      </td>
             </tr>
         {% endfor %} 
         {% endif %} 
@@ -60,3 +94,6 @@
     </div> 
 </body>
 </html>
+
+
+  
