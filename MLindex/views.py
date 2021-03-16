@@ -103,7 +103,7 @@ def hello(request):
     df_new.set_index("Timestamp",inplace=True)
     df_new=df_new.dropna()
     df_new=predict(df_trian,df_new)
-    df_new=buy_hole_sell(df_new.tail(200))
+    df_new=buy_hole_sell(df_new.head(200))
     df_new=df_new.head(200)
     print("===============step 2======================")
 
@@ -164,11 +164,11 @@ def Regitser(request):
 
 @login_required
 def home1(request):
-        import requests as req1
-        from bs4 import BeautifulSoup as soup
+        import requests 
+        from bs4 import BeautifulSoup
         url = 'https://marketdata.set.or.th/mkt/sectorquotation.do?sector=SET50&language=th&country=TH'
-        webopen = req1.get(url)
-        soup = soup(webopen.text,'html.parser')
+        webopen = requests.get(url)
+        soup = BeautifulSoup(webopen.text,'html.parser')
         data = []
         table = soup.find('table', attrs={'class':'table-info'})
         table_body = table.find('tbody')
@@ -180,12 +180,14 @@ def home1(request):
             cols = row.find_all('td')   
             cols = [ele.text.strip() for ele in cols]
             data.append([ele for ele in cols if ele])
-        """
-        url = 'https://www.set.or.th/set/searchtodaynews.do?securityType=S&language=th&country=TH'
-        webopen = req1.get(url)
-        soup = soup(webopen.text,'html.parser')
+            
+        
+        
+       
+        webopen2 = requests.get('https://marketdata.set.or.th/mkt/investortype.do?language=th&country=TH')
+        soup2 = BeautifulSoup(webopen2.text,'html.parser')
         data2 = []
-        table2 = soup.find('table', attrs={'class':'col-xs-9'})
+        table2 = soup2.find('table',attrs={'class':'table table-info'})
         table_body2 = table2.find('tbody')
         rows2 = table_body2.find_all('tr')
 
@@ -193,7 +195,7 @@ def home1(request):
             cols2 = row.find_all('td')
             cols2 = [ele.text.strip() for ele in cols2]
             data2.append([ele for ele in cols2 if ele])
-        """
+       
 
-        return render(request,"home.html",{"data":data})
+        return render(request,"home.html",{"data":data,"data2":data2})
         

@@ -9,16 +9,40 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
+  .arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 12.5px  solid transparent;
+    border-right: 12.5px solid transparent;
+    border-bottom: 20px solid green;
+    }
+  .arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 12.5px solid transparent;
+    border-right: 12.5px solid transparent;
+    border-top: 20px solid #f00;
+    }
+  .dot {
+    height: 20px;
+    width: 20px;
+    background-color: gainsboro;
+    border-radius: 50%;
+     display: inline-block;
+   }
 
   .close50 {
     height: 200px;
-    background: rgba(228, 224, 224, 0.667);
+    background: #1be0c03f;
     text-align: center;
     position: relative;
     }
   .fclose50{
     position: absolute;
-    font-size: 50px;
+    text-align: center;
+    margin-left: 50px;
+    margin-top: 50px;
+    font-size: 70px;
     
   }
 
@@ -44,7 +68,7 @@
     text-align: center;
     padding-top: 1%;
     clear:none;
-    
+    display: block;
   }
   
   </style>  
@@ -84,19 +108,21 @@
 </div>
 </nav>
 
-<main role="main">
-  <div class="container" style="margin-top: 100px; margin-bottom: 50px">
+
+<div class="container" style="margin-top: 70px; margin-bottom: 20px">
   </div>
-<div class="container">
+<div class="container" style="display: block; min-height: 100%">
 {% block content %}
 
 {% endblock content %}
+</div>
+<div class="container" style="height: 50px; display: block;">
 </div>
 
 <div class="Footer">
     <p>Copyright © CEKMITL</p>
 </div>
-</main>
+
 
 </body>
 </html>
