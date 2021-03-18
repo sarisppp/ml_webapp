@@ -12,30 +12,36 @@
   {% if d %} 
   <div class="container"> 
     <table class="table table-dark table-striped"> 
-        <thead> 
+        <thead  style="position: sticky;"> 
         <tr> 
             <th scope="col">Timestamp</th>
+            <th scope="col">Open</th>
+            <th scope="col">High</th>
+            <th scope="col">Low</th>
             <th scope="col">Close</th>
             <th scope="col">EMAV(34)</th>
-            <th scope="col">Signal</th>
-            <th scope="col">MACD(13,5,5)</th>
-            <th scope="col">RSI</th>
-            <th scope="col">EMAV(RSI,13)</th>
-           <th scope="col">Alert</th>
+            <th scope="col">Vol</th>
+           <th scope="col">RSI(14)</th>
+           <th scope="col">MACD(13,5,5)</th>
         </tr> 
         </thead> 
         <tbody> 
           
-          {% for i in d %} 
+          {% for i in d %}
             <tr>
                 <td>{{i.Timestamp}}</td> 
-                    <td>{{i.Close}}</td> 
-                    <td>{{i.EMAV}}</td> 
-                    <td>{{i.Signal}}</td> 
-                    <td>{{i.MACD13}}</td> 
-                    <td>{{i.RSI14}}</td> 
-                    <td>{{i.EMAVRSI13}}</td>
-                    <td>{{i.Alert}}</td>
+                    <td>{{i.Open}}</td> 
+                    <td>{{i.High}}</td> 
+                    <td>{{i.Low}}</td> 
+                    {% if i.Close < i.Open %}
+                    <td style="color: red;" >{{i.Close}}</td> 
+                    {% else %}
+                    <td style="color: greenyellow;" >{{i.Close}}</td> 
+                    {% endif %}
+                    <td>{{i.EMA}}</td> 
+                    <td>{{i.Vol}}</td>
+                    <td>{{i.RSI}}</td>
+                    <td>{{i.MACD}}</td>
             </tr>
         {% endfor %} 
         {% endif %} 

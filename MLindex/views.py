@@ -20,9 +20,9 @@ def Hello(request):
 def signal(datatrain,periods=16):
     datatrain['output']=0
     for index,row in datatrain.iterrows():
-        if row['MACD13']>row['Signal'] and row['RSI14']>row['EMAVRSI13']+(row['EMAVRSI13']*0.2) and row['RSI14']<70:
+        if row['MACD13']>row['Signal']+(row['Signal']*0.2) and row['RSI14']>row['EMAVRSI13']+(row['EMAVRSI13']*0.2) and row['RSI14']<70:
             signalPre=1
-        elif row['MACD13']<row['Signal'] and row['RSI14']<row['EMAVRSI13']-(row['EMAVRSI13']*0.2) and row['RSI14']>30:
+        elif row['MACD13']<row['Signal']-(row['Signal']*0.2) and row['RSI14']<row['EMAVRSI13']-(row['EMAVRSI13']*0.2) and row['RSI14']>30:
             if row['Close']<row['EMAV']:
                 signalPre=-1
             else:
@@ -84,7 +84,7 @@ def buy_hole_sell(data_update2):
                         status=1
                         Alert=1
                     elif row['signal_predict']==-1:
-                        Alert=0
+                        Alert=-1
                     else:
                         Alert=0
                 else:
@@ -93,24 +93,30 @@ def buy_hole_sell(data_update2):
         return data_update2
 
 def hello(request):
-    used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
-    df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
-    df.set_index("Timestamp",inplace=True)
-    df=df.dropna()
-    df_trian=signal(df)
-    used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
-    df_new = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
-    df_new.set_index("Timestamp",inplace=True)
-    df_new=df_new.dropna()
-    df_new=predict(df_trian,df_new)
-    df_new=buy_hole_sell(df_new.head(200))
-    df_new=df_new.head(200)
-    print("===============step 2======================")
-
-    json_records = df_new.reset_index().to_json(orient ='records') 
-    data = [] 
-    data = json.loads(json_records) 
-    context = {'d': data,} 
+    if request.method == 'GET':
+        dat = request.GET.get("datee")
+        if dat == None:
+            return render(request,"history.html")
+        else:
+            used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
+            df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
+            df.set_index("Timestamp",inplace=True)
+            df=df.dropna()
+            df_trian=signal(df)
+            used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
+            df_new = pd.read_csv("newset50.csv",usecols =used_features,encoding= 'unicode_escape')
+            df_new["Timestamp"] = pd.to_datetime(df_new['Timestamp'])
+            df_new.set_index("Timestamp",inplace=True)
+            df_new=df_new.loc[dat]
+            df_new=df_new.dropna()
+            df_new=predict(df_trian,df_new)
+            df_new=buy_hole_sell(df_new)
+            df_new.reset_index(inplace=True)
+            print("===============step 2======================")
+            json_records = df_new.reset_index().to_json(orient ='records', date_format='iso',date_unit='s') 
+            data = [] 
+            data = json.loads(json_records) 
+            context = {'d': data} 
     
     return render(request,'index.html',context)
 
@@ -120,8 +126,8 @@ def history1(request):
         if dat == None:
             return render(request,"history.html")
         else:
-            used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
-            df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
+            used_features = ['Timestamp','Open','High','Low','Close','EMA','Vol','RSI','MACD']
+            df = pd.read_csv("newset50_1.csv",usecols =used_features,encoding= 'unicode_escape')
             df["Timestamp"] = pd.to_datetime(df['Timestamp'])
             df.set_index("Timestamp",inplace=True)
             df=df.dropna()
@@ -173,17 +179,12 @@ def home1(request):
         table = soup.find('table', attrs={'class':'table-info'})
         table_body = table.find('tbody')
         rows = table_body.find_all('tr')
-
-        
-
+    
         for row in rows:
             cols = row.find_all('td')   
             cols = [ele.text.strip() for ele in cols]
             data.append([ele for ele in cols if ele])
             
-        
-        
-       
         webopen2 = requests.get('https://marketdata.set.or.th/mkt/investortype.do?language=th&country=TH')
         soup2 = BeautifulSoup(webopen2.text,'html.parser')
         data2 = []
@@ -197,5 +198,16 @@ def home1(request):
             data2.append([ele for ele in cols2 if ele])
        
 
-        return render(request,"home.html",{"data":data,"data2":data2})
+        webopen3 = requests.get('https://www.ryt9.com/stock-latest')
+        soup3 = BeautifulSoup(webopen3.text,'html.parser')
+        data3=[]
+        data4=[]
+        
+        num=[0,1,2,3,4,5]
+        for a in soup3.find_all('a',attrs={'class':'list-title'}, href=True,text=True):
+            data3.append(a['href'])
+            data4.append(a.text)
+
+       
+        return render(request,"home.html",{"data":data,"data2":data2,"data3":data3,"data4":data4,"num":num})
         

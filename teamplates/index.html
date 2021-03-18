@@ -50,21 +50,30 @@
         </div>
     </nav>
     <br> -->
+
+    
     <h1>SET50 Index</h1>
     {% extends 'base.html' %}
   
-    {% block content %}   
+    {% block content %}  
+    <form method="GET">
+        {% csrf_token %}
+        <label for="datee">Date:</label>
+        <input type="date" id="datee" name="datee">
+        <input type="submit">
+    </form><br>
+    
 <div class="container"> 
     <table class="table table-dark table-striped"> 
         <thead> 
         <tr> 
             <th scope="col">Timestamp</th>
             <th scope="col">Close</th>
-            <th scope="col">EMAV(34)</th>
+            <th scope="col">EMA</th>
             <th scope="col">Signal</th>
-            <th scope="col">MACD(13,5,5)</th>
+            <th scope="col">MACD</th>
             <th scope="col">RSI</th>
-            <th scope="col">EMAV(RSI,13)</th>
+            <th scope="col">EMAV</th>
             <th scope="col">Alert</th>
         </tr> 
         </thead> 
