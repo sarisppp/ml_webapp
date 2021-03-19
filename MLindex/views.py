@@ -95,6 +95,8 @@ def buy_hole_sell(data_update2):
 def hello(request):
     if request.method == 'GET':
         dat = request.GET.get("datee")
+        period = request.GET.get("period")
+
         if dat == None:
             return render(request,"history.html")
         else:
@@ -109,10 +111,16 @@ def hello(request):
             df_new.set_index("Timestamp",inplace=True)
             df_new=df_new.loc[dat]
             df_new=df_new.dropna()
-            
+            x=len(df_new.index)//2
+            y=len(df_new.index)-x
+           
             df_new=predict(df_trian,df_new)
             df_new=buy_hole_sell(df_new)
             df_new.reset_index(inplace=True)
+            if period == "F" :
+                df_new=df_new.loc[:x]
+            else :
+                df_new=df_new.loc[y:]
             print("===============step 2======================")
             json_records = df_new.reset_index().to_json(orient ='records', date_format='iso',date_unit='s') 
             data = [] 
@@ -134,13 +142,14 @@ def history1(request):
             df.set_index("Timestamp",inplace=True)
             df=df.dropna()
             df=df.loc[dat]
-            x=len(df.index)/2
+            x=len(df.index)//2
+            y=len(df.index)-x
             df.reset_index(inplace=True)
             print("===============step 2======================")
             if period == "F" :
                 df=df.loc[:x]
-            else:
-                df=df.loc[x:]
+            else :
+                df=df.loc[y:]
             json_records = df.reset_index().to_json(orient ='records', date_format='iso',date_unit='s') 
             
             data = [] 
