@@ -104,6 +104,7 @@ def hello(request):
             df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
             df.set_index("Timestamp",inplace=True)
             df=df.dropna()
+            df=df.head(40000)
             df_trian=signal(df)
             used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
             df_new = pd.read_csv("newset50.csv",usecols =used_features,encoding= 'unicode_escape')
@@ -114,9 +115,11 @@ def hello(request):
             x=len(df_new.index)//2
             y=len(df_new.index)-x
             if period == "F" :
-                df_new=predict(df_trian,df_new.loc[:x])
+                df_new=df_new.head(x)
+                df_new=predict(df_trian,df_new)
             else :
-                df_new=predict(df_trian,df_new.loc[:y])
+                df_new=df_new.tail(y)
+                df_new=predict(df_trian,df_new)
             df_new=buy_hole_sell(df_new)
             df_new.reset_index(inplace=True)
             
