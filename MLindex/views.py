@@ -104,7 +104,7 @@ def hello(request):
             df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
             df.set_index("Timestamp",inplace=True)
             df=df.dropna()
-            df=df.head(30000)
+            df=df.head(15000)
             df_trian=signal(df)
             used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
             df_new = pd.read_csv("newset50.csv",usecols =used_features,encoding= 'unicode_escape')
