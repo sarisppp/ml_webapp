@@ -61,11 +61,13 @@
         <label for="datee">Date:</label>
         <input type="date" id="datee" name="datee">
         <input type="submit">
-    </form><br>
+    </form>
     
 <div class="container"> 
+    <table align="right"><tr><td><div class="arrow-up"></div></td><td><p>ขึ้นผิดปกติ&nbsp;</p></td><td><div class="arrow-down"></div></td><td><p>ลงผิดปกติ&nbsp;</p></td><td><div class="dot"></div></td><td><p>ปกติ&nbsp;</p></td>
+    </table>
     <table class="table table-dark table-striped"> 
-        <thead> 
+        <thead>
         <tr> 
             <th scope="col">Timestamp</th>
             <th scope="col">Close</th>
@@ -90,11 +92,26 @@
                     <td>{{i.EMAVRSI13}}</td>
                     <td align="center">
                         {% if i.Alert == 1 %}
-                            <div class="arrow-up"></div>
+                            {% if i.RSI14 > 70 %}
+                                <div class="arrow-up"></div>
+                                <p style="color: greenyellow;">RSI สูงเกิน 70</p>
+                            {% else %}
+                                <div class="arrow-up"></div>        
+                                </td>
+                            {% endif %}
+
                         {% elif i.Alert == 0 %}
                             <div class="dot"></div>
+                            </br>
                         {% else %}
-                            <div class="arrow-down"></div>
+                            {% if i.RSI14 < 30 %}
+                                <div class="arrow-down"></div>
+                                <p style="color: red;">RSI ต่ำกว่า 30</p>
+                            {% else %}
+                                <div class="arrow-down"></div>
+                                </br>
+                            {% endif %}
+                        
                         {% endif %}
                       </td>
             </tr>

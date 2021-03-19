@@ -20,9 +20,9 @@ def Hello(request):
 def signal(datatrain,periods=16):
     datatrain['output']=0
     for index,row in datatrain.iterrows():
-        if row['MACD13']>row['Signal']+(row['Signal']*0.2) and row['RSI14']>row['EMAVRSI13']+(row['EMAVRSI13']*0.2) and row['RSI14']<70:
+        if row['MACD13']>row['Signal']+(row['Signal']*0.2) and row['RSI14']>row['EMAVRSI13']+(row['EMAVRSI13']*0.2):
             signalPre=1
-        elif row['MACD13']<row['Signal']-(row['Signal']*0.2) and row['RSI14']<row['EMAVRSI13']-(row['EMAVRSI13']*0.2) and row['RSI14']>30:
+        elif row['MACD13']<row['Signal']-(row['Signal']*0.2) and row['RSI14']<row['EMAVRSI13']-(row['EMAVRSI13']*0.2):
             if row['Close']<row['EMAV']:
                 signalPre=-1
             else:
@@ -73,7 +73,7 @@ def buy_hole_sell(data_update2):
             else :
                 if status==1:
                     if row['signal_predict']==1:
-                        Alert=0
+                        Alert=1
                     elif row['signal_predict']==-1:
                         status=-1
                         Alert=-1
