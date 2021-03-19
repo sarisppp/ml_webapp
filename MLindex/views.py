@@ -95,7 +95,6 @@ def buy_hole_sell(data_update2):
 def hello(request):
     if request.method == 'GET':
         dat = request.GET.get("datee")
-        period = request.GET.get("period")
         if dat == None:
             return render(request,"index.html")
         else:
@@ -105,19 +104,13 @@ def hello(request):
             df.set_index("Timestamp",inplace=True)
             df=df.dropna()
             df_trian=signal(df)
-             print("===============step1======================")
+            print("===============step1======================")
             used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
             df_new = pd.read_csv("newset50.csv",usecols =used_features,encoding= 'unicode_escape')
             df_new["Timestamp"] = pd.to_datetime(df_new['Timestamp'])
             df_new.set_index("Timestamp",inplace=True)
             df_new=df_new.loc[dat]
             df_new=df_new.dropna()
-            x=len(df_new.index)/2
-           
-            if period == "F" :
-                df_new=df_new.loc[:x]
-            else:
-                df_new=df_new.loc[x:]
             df_new=predict(df_trian,df_new)
             df_new=buy_hole_sell(df_new)
             df_new.reset_index(inplace=True)
