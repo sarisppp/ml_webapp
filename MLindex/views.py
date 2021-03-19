@@ -113,13 +113,13 @@ def hello(request):
             df_new=df_new.dropna()
             x=len(df_new.index)//2
             y=len(df_new.index)-x
-            df_new=predict(df_trian,df_new)
+            if period == "F" :
+                df_new=predict(df_trian,df_new.loc[:x])
+            else :
+                df_new=predict(df_trian,df_new.loc[:y])
             df_new=buy_hole_sell(df_new)
             df_new.reset_index(inplace=True)
-            if period == "F" :
-                df_new=df_new.loc[:x]
-            else :
-                df_new=df_new.loc[y:]
+            
             print("===============step 2======================")
             json_records = df_new.reset_index().to_json(orient ='records', date_format='iso',date_unit='s') 
             data = [] 
