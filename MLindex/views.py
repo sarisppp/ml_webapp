@@ -97,13 +97,15 @@ def hello(request):
         dat = request.GET.get("datee")
         period = request.GET.get("period")
         if dat == None:
-            return render(request,"history.html")
+            return render(request,"index.html")
         else:
+            print("===============step======================")
             used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
             df = pd.read_csv("Set50_20190314_20200820_1minute.csv",usecols =used_features,encoding= 'unicode_escape')
             df.set_index("Timestamp",inplace=True)
             df=df.dropna()
             df_trian=signal(df)
+             print("===============step1======================")
             used_features = ["Timestamp","Close","EMAV","RSI14","MACD13","EMAVRSI13","Signal"]
             df_new = pd.read_csv("newset50.csv",usecols =used_features,encoding= 'unicode_escape')
             df_new["Timestamp"] = pd.to_datetime(df_new['Timestamp'])
@@ -111,7 +113,7 @@ def hello(request):
             df_new=df_new.loc[dat]
             df_new=df_new.dropna()
             x=len(df_new.index)/2
-            print("===============step 2======================")
+           
             if period == "F" :
                 df_new=df_new.loc[:x]
             else:
