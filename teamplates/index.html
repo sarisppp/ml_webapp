@@ -59,9 +59,14 @@
     <form method="GET">
         {% csrf_token %}
         <label for="datee">Date:</label>
-        <input type="date" id="datee" name="datee">
-        <input type="submit">
-    </form>
+        <input type="date" id="datee" name="datee" style=" height: 50px;">
+        
+        <select name="period" id="period" style="width:150px; height: 50px;">
+          <option value="F">ส่วนที่1</option>
+          <option value="L">ส่วนที่2</option>
+        
+        <input type="submit" style="width:150px; height: 50px;">
+    </form><br>
     
 <div class="container"> 
     <table align="right"><tr><td><div class="arrow-up"></div></td><td><p>ขึ้นผิดปกติ&nbsp;</p></td><td><div class="arrow-down"></div></td><td><p>ลงผิดปกติ&nbsp;</p></td><td><div class="dot"></div></td><td><p>ปกติ&nbsp;</p></td>

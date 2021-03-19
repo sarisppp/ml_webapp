@@ -95,6 +95,7 @@ def buy_hole_sell(data_update2):
 def hello(request):
     if request.method == 'GET':
         dat = request.GET.get("datee")
+        period = request.GET.get("period")
         if dat == None:
             return render(request,"history.html")
         else:
@@ -109,7 +110,12 @@ def hello(request):
             df_new.set_index("Timestamp",inplace=True)
             df_new=df_new.loc[dat]
             df_new=df_new.dropna()
-            
+            x=len(df_new.index)/2
+            print("===============step 2======================")
+            if period == "F" :
+                df_new=df_new.loc[:x]
+            else:
+                df_new=df_new.loc[x:]
             df_new=predict(df_trian,df_new)
             df_new=buy_hole_sell(df_new)
             df_new.reset_index(inplace=True)
